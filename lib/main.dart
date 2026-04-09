@@ -1,0 +1,2433 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
+
+void main() {
+  //引数にしたウィジェットをルートウィジェットにする
+  //debugPaintSizeEnabled = true;
+  runApp(const SpikeScorePage());
+}
+
+class SpikeScorePage extends StatelessWidget {
+  const SpikeScorePage({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'GameScore',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+
+  final _childPageList = [
+    SpikeScoreMainPage(),
+    OtherScoreMainPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: _currentIndex,
+      length: _childPageList.length,
+      child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: TabBar(
+            tabs: [
+              Tab(text: "spike score"),
+              Tab(text: "reception & serve & block & high set score"),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: _childPageList,
+        ),
+      ),
+    );
+  }
+}
+
+
+//================================================
+//SpikeScoreMainPage
+class SpikeScoreMainPage extends StatelessWidget {
+  const SpikeScoreMainPage({super.key});
+
+  //String value = '';
+  //int a = 0;
+  //int parameter = 0;
+  //List<String> parameter_list = ['0', '0'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                    //プレイヤー名を記入できる部分の作成
+                    Container(
+                        //width:100,
+                        child:Text('プレイヤー')
+                    ),
+
+                    //トータルアタック
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: Colors.grey, //枠線の色
+                              width: 2, //枠線の太さ
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Text('トータルアタック'),
+                            //1人分の記録の題
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text('合計'),
+                                ),
+                                Expanded(
+                                  child: Text('決定'),
+                                ),
+                                Expanded(
+                                  child: Text('繋ぎ'),
+                                ),
+                                Expanded(
+                                  child: Text('失敗'),
+                                ),
+                                Expanded(
+                                  child: Text('効果率'),
+                                ),
+                                Expanded(
+                                  child: Text('決定率'),
+                                ),
+                              ],
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                    //レセプションアタック
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: Colors.grey, //枠線の色
+                              width: 2, //枠線の太さ
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Text('レセプションアタック'),
+                            //1人分の記録の題
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text('合計'),
+                                ),
+                                Expanded(
+                                  child: Text('決定'),
+                                ),
+                                Expanded(
+                                  child: Text('繋ぎ'),
+                                ),
+                                Expanded(
+                                  child: Text('失敗'),
+                                ),
+                                Expanded(
+                                  child: Text('効果率'),
+                                ),                                
+                                Expanded(
+                                  child: Text('決定率'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    //トランジションアタック
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: Colors.grey, //枠線の色
+                              width: 2, //枠線の太さ
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Text('トランジションアタック'),
+                            //1人分の記録の題
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text('合計'),
+                                ),
+                                Expanded(
+                                  child: Text('決定'),
+                                ),
+                                Expanded(
+                                  child: Text('繋ぎ'),
+                                ),
+                                Expanded(
+                                  child: Text('失敗'),
+                                ),
+                                Expanded(
+                                  child: Text('効果率'),
+                                ),
+                                Expanded(
+                                  child: Text('決定率'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    //バックアタック
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: Colors.grey, //枠線の色
+                              width: 2, //枠線の太さ
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Text('バックアタック'),
+                            //1人分の記録の題
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text('合計'),
+                                ),
+                                Expanded(
+                                  child: Text('決定'),
+                                ),
+                                Expanded(
+                                  child: Text('繋ぎ'),
+                                ),
+                                Expanded(
+                                  child: Text('失敗'),
+                                ),
+                                Expanded(
+                                  child: Text('効果率'),
+                                ),
+                                Expanded(
+                                  child: Text('決定率'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    
+                    Container(
+                        width:40,
+                        child:Text('1つ\n戻る')
+                    ),
+                  ],
+                ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                        PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:70,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(child:
+                      PlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+      ),
+    );
+  }
+}
+
+
+class PlayerRecord extends StatefulWidget {
+  //PlayerRecord({required Key key}) : super(key: key);
+
+  @override
+  _PlayerRecord createState() => _PlayerRecord();
+
+}
+
+class _PlayerRecord extends State<PlayerRecord> {
+  //トータルアタックの変数
+  int total_sum_number = 0;
+  int total_decision_number = 0;
+  int total_connection_number = 0;
+  int total_failure_number = 0;
+  double total_effective_rate = 0.0;
+  double total_decision_rate = 0.0;
+  //レセプションアタックの変数
+  int rece_sum_number = 0;
+  int rece_decision_number = 0;
+  int rece_connection_number = 0;
+  int rece_failure_number = 0;
+  double rece_effective_rate = 0.0;
+  double rece_decision_rate = 0.0;
+  //トランジションアタックの変数
+  int trans_sum_number = 0;
+  int trans_decision_number = 0;
+  int trans_connection_number = 0;
+  int trans_failure_number = 0;
+  double trans_effective_rate = 0.0;
+  double trans_decision_rate = 0.0;
+  //バックアタックの変数
+  int back_sum_number = 0;
+  int back_decision_number = 0;
+  int back_connection_number = 0;
+  int back_failure_number = 0;
+  double back_effective_rate = 0.0;
+  double back_decision_rate = 0.0;
+  //undo用の変数
+  String undo_string = "";
+
+  //===============================================
+  //レセプションアタックの関数
+  //決定数のカウントアップ関数
+  void _incrementReceptionDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      rece_sum_number++;
+      //決定数のカウントアップ
+      total_decision_number++;
+      rece_decision_number++;
+      //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      rece_effective_rate = ((rece_decision_number - rece_failure_number) / rece_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "rece_decision_number";
+    });
+  }
+  //繋ぎのカウントアップ関数
+  void _incrementReceptionConnectNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      rece_sum_number++;
+      //繋ぎ数のカウントアップ
+      total_connection_number++;
+      rece_connection_number++;
+      //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      rece_effective_rate = ((rece_decision_number - rece_failure_number) / rece_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "rece_connection_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementReceptionFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      rece_sum_number++;
+      //失敗数のカウントアップ
+      total_failure_number++;
+      rece_failure_number++;
+      //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      rece_effective_rate = ((rece_decision_number - rece_failure_number) / rece_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "rece_failure_number";
+    });
+  }
+  //===============================================
+  //トランジションアタックの関数
+  //決定数のカウントアップ関数
+  void _incrementTransitionDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      trans_sum_number++;
+      //決定数のカウントアップ
+      total_decision_number++;
+      trans_decision_number++;
+     //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      trans_effective_rate = ((trans_decision_number - trans_failure_number) / trans_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      trans_decision_rate = (trans_decision_number / trans_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "trans_decision_number";
+    });
+  }
+  //繋ぎのカウントアップ関数
+  void _incrementTransitionConnectNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      trans_sum_number++;
+      //繋ぎ数のカウントアップ
+      total_connection_number++;
+      trans_connection_number++;
+     //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      trans_effective_rate = ((trans_decision_number - trans_failure_number) / trans_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      trans_decision_rate = (trans_decision_number / trans_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "trans_connection_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementTransitionFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      trans_sum_number++;
+      //失敗数のカウントアップ
+      total_failure_number++;
+      trans_failure_number++;
+     //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      trans_effective_rate = ((trans_decision_number - trans_failure_number) / trans_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      trans_decision_rate = (trans_decision_number / trans_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "trans_failure_number";
+    });
+  }
+  //===============================================
+  //バックアタックの関数
+  //決定数のカウントアップ関数
+  void _incrementBackDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      back_sum_number++;
+      //決定数のカウントアップ
+      total_decision_number++;
+      back_decision_number++;
+      //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      back_effective_rate = ((back_decision_number - back_failure_number) / back_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      back_decision_rate = (back_decision_number / back_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "back_decision_number";
+    });
+  }
+  //繋ぎのカウントアップ関数
+  void _incrementBackConnectNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      back_sum_number++;
+      //繋ぎ数のカウントアップ
+      total_connection_number++;
+      back_connection_number++;
+      //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      back_effective_rate = ((back_decision_number - back_failure_number) / back_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      back_decision_rate = (back_decision_number / back_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "back_connection_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementBackFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      total_sum_number++;
+      back_sum_number++;
+      //失敗数のカウントアップ
+      total_failure_number++;
+      back_failure_number++;
+      //効果率の計算
+      total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+      back_effective_rate = ((back_decision_number - back_failure_number) / back_sum_number)*100;
+      //決定率の計算
+      total_decision_rate = (total_decision_number / total_sum_number)*100;
+      back_decision_rate = (back_decision_number / back_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "back_failure_number";
+    });
+  }
+  //===============================================
+  //上で書いたカウントアップ関数と逆の処理を行う
+  void _undo() {
+    setState(() {
+      //レセプションアタック
+      if (undo_string.startsWith("rece")) {
+        if (undo_string == "rece_decision_number") {
+          //合計数のカウントダウン
+          total_sum_number--;
+          rece_sum_number--;
+          //決定数のカウントダウン
+          total_decision_number--;
+          rece_decision_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          rece_effective_rate = ((rece_decision_number - rece_failure_number) / rece_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+
+        } else if (undo_string == "rece_connection_number") {
+          //合計数のカウントダウン
+          total_sum_number--;
+          rece_sum_number--;
+          //繋ぎ数のカウントダウン
+          total_connection_number--;
+          rece_connection_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          rece_effective_rate = ((rece_decision_number - rece_failure_number) / rece_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+        } else {
+          //合計数のカウントダウン
+          total_sum_number--;
+          rece_sum_number--;
+          //失敗数のカウントダウン
+          total_failure_number--;
+          rece_failure_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          rece_effective_rate = ((rece_decision_number - rece_failure_number) / rece_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+        }
+        //トランジションアタック
+      } else if (undo_string.startsWith("trans")) {
+        if (undo_string == "trans_decision_number") {
+          //合計数のカウントダウン
+          total_sum_number--;
+          trans_sum_number--;
+          //決定数のカウントダウン
+          total_decision_number--;
+          trans_decision_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          trans_effective_rate = ((trans_decision_number - trans_failure_number) / trans_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          trans_decision_rate = (trans_decision_number / trans_sum_number)*100;
+        } else if (undo_string == "trans_connection_number") {
+          //合計数のカウントダウン
+          total_sum_number--;
+          trans_sum_number--;
+          //繋ぎ数のカウントダウン
+          total_connection_number--;
+          trans_connection_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          trans_effective_rate = ((trans_decision_number - trans_failure_number) / trans_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          trans_decision_rate = (trans_decision_number / trans_sum_number)*100;
+        } else {
+          //合計数のカウントダウン
+          total_sum_number--;
+          trans_sum_number--;
+          //失敗数のカウントダウン
+          total_failure_number--;
+          trans_failure_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          trans_effective_rate = ((trans_decision_number - trans_failure_number) / trans_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          trans_decision_rate = (trans_decision_number / trans_sum_number)*100;
+        }
+        //バックアタック
+      } else {
+        if (undo_string == "back_decision_number") {
+          //合計数のカウントダウン
+          total_sum_number--;
+          back_sum_number--;
+          //決定数のカウントダウン
+          total_decision_number--;
+          back_decision_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          back_effective_rate = ((back_decision_number - back_failure_number) / back_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          back_decision_rate = (back_decision_number / back_sum_number)*100;
+        } else if (undo_string == "back_connection_number") {
+          //合計数のカウントダウン
+          total_sum_number--;
+          back_sum_number--;
+          //繋ぎ数のカウントダウン
+          total_connection_number--;
+          back_connection_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          back_effective_rate = ((back_decision_number - back_failure_number) / back_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          back_decision_rate = (back_decision_number / back_sum_number)*100;
+        } else {
+          //合計数のカウントダウン
+          total_sum_number--;
+          back_sum_number--;
+          //失敗数のカウントダウン
+          total_failure_number--;
+          back_failure_number--;
+          //効果率の計算
+          total_effective_rate = ((total_decision_number - total_failure_number) / total_sum_number)*100;
+          back_effective_rate = ((back_decision_number - back_failure_number) / back_sum_number)*100;
+          //決定率の計算
+          total_decision_rate = (total_decision_number / total_sum_number)*100;
+          back_decision_rate = (back_decision_number / back_sum_number)*100;
+        }
+      }
+
+    });
+  }
+  //===============================================
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Row(
+        children: [
+          //個人データの合計
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            //===============================================
+            //トータルアタック            
+            child: Row(
+              children: [
+                Expanded(child:
+                Text(
+                  '$total_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                Expanded(child:
+                Text(
+                  '$total_decision_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                Expanded(child:
+                Text(
+                  '$total_connection_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                Expanded(child:
+                Text(
+                  '$total_failure_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                Expanded(child:
+                Text(
+                  ((total_effective_rate ?? 0) < 0 ? 0 : total_effective_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ),
+                Expanded(child:
+                Text(
+                  //((x ?? 0) < 0 ? 0 : x!).toStringAsFixed(1)
+                  ((total_decision_rate ?? 0) < 0 ? 0 : total_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+
+          //===============================================
+          //レセプションアタック
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                //合計数
+                Expanded(child:
+                Text(
+                  '$rece_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: _incrementReceptionDecisionNumber,
+                    child: Text('$rece_decision_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //繋ぎ数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                      onTap: _incrementReceptionConnectNumber,
+                      child: Text('$rece_connection_number',
+                        style: TextStyle(
+                          fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //失敗数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: _incrementReceptionFailureNumber,
+                    //数を表示する
+                    child: Text('$rece_failure_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //効果率
+                Expanded(child:
+                Text(
+                  ((rece_effective_rate ?? 0) < 0 ? 0 : rece_effective_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ),                
+                //決定率
+                Expanded(child:
+                Text(
+                  ((rece_decision_rate ?? 0) < 0 ? 0 : rece_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+          //===============================================
+          //トランジションアタック
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child:
+            Row(
+              children: [
+                //合計値
+                Expanded(child:
+                Text(
+                  '$trans_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, //色
+                        width: 1.0, //太さ
+                      ),
+                    ),
+                    child: GestureDetector(
+                      //ボタンが押されたときの関数
+                      //カウントアップを行う
+                      onTap: _incrementTransitionDecisionNumber,
+                      //数を表示する
+                      child: Text('$trans_decision_number',
+                        style: TextStyle(
+                          fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //繋ぎ数
+                Expanded(child:
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, //色
+                        width: 1.0, //太さ
+                      ),
+                    ),
+                    child: GestureDetector(
+                      //ボタンが押されたときの関数
+                      //カウントアップを行う
+                      onTap: _incrementTransitionConnectNumber,
+                      //数を表示する
+                      child: Text('$trans_connection_number',
+                        style: TextStyle(
+                          fontSize: 26,
+                        ),
+                      ),
+
+                    ),
+                  ),
+                ),
+                //失敗数
+                Expanded(child:
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, //色
+                        width: 1.0, //太さ
+                      ),
+                    ),
+                    child: GestureDetector(
+                      //ボタンが押されたときの関数
+                      //カウントアップを行う
+                      onTap: _incrementTransitionFailureNumber,
+                      //数を表示する
+                      child: Text('$trans_failure_number',
+                        style: TextStyle(
+                        fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //効果率
+                Expanded(child:
+                Text(
+                  ((trans_effective_rate ?? 0) < 0 ? 0 : trans_effective_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ),
+                //決定率
+                Expanded(child:
+                Text(
+                  ((trans_decision_rate ?? 0) < 0 ? 0 : trans_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+          //===============================================
+          //バックアタック
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child:
+            Row(
+              children: [
+                //合計値
+                Expanded(child:
+                Text(
+                  '$back_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, //色
+                        width: 1.0, //太さ
+                      ),
+                    ),
+                    child: GestureDetector(
+                      //ボタンが押されたときの関数
+                      //カウントアップを行う
+                      onTap: _incrementBackDecisionNumber,
+                      //数を表示する
+                      child: Text('$back_decision_number',
+                        style: TextStyle(
+                          fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //繋ぎ数
+                Expanded(child:
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, //色
+                        width: 1.0, //太さ
+                      ),
+                    ),
+                    child: GestureDetector(
+                      //ボタンが押されたときの関数
+                      //カウントアップを行う
+                      onTap: _incrementBackConnectNumber,
+                      //数を表示する
+                      child: Text('$back_connection_number',
+                        style: TextStyle(
+                        fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //失敗数
+                Expanded(child:
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, //色
+                        width: 1.0, //太さ
+                      ),
+                    ),
+                    child: GestureDetector(
+                      //ボタンが押されたときの関数
+                      //カウントアップを行う
+                      onTap: _incrementBackFailureNumber,
+                      //数を表示する
+                      child: Text('$back_failure_number',
+                        style: TextStyle(
+                          fontSize: 26,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //効果率
+                Expanded(child:
+                  Text(
+                    ((back_effective_rate ?? 0) < 0 ? 0 : back_effective_rate!).toStringAsFixed(1),
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                //決定率
+                Expanded(child:
+                  Text(
+                    ((back_decision_rate ?? 0) < 0 ? 0 : back_decision_rate!).toStringAsFixed(1),
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ),
+          //undoボタン
+          IconButton(
+            icon: const Icon(Icons.undo),
+            onPressed: _undo,
+            style: IconButton.styleFrom(
+
+            ),
+          ),
+        ],
+      );
+
+
+  }
+}
+
+
+//===============================================
+//===============================================
+//===============================================
+//OtherScoreMainPage
+class OtherScoreMainPage extends StatelessWidget {
+  const OtherScoreMainPage({super.key});
+
+  //String value = '';
+  //int a = 0;
+  //int parameter = 0;
+  //List<String> parameter_list = ['0', '0'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  //プレイヤー名を記入できる部分の作成
+                  Container(
+                    width:100,
+                    height:40,
+                    child:Text('プレイヤー')
+                  ),
+
+
+                  Expanded(child:
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey, //枠線の色
+                            width: 2, //枠線の太さ
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          //レセプション
+                          Text('レセプション'),
+                          //1人分の記録の題
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text('合計'),
+                              ),
+                              Expanded(
+                                child: Text('成功'),
+                              ),
+                              Expanded(
+                                child: Text('失敗'),
+                              ),
+                              Expanded(
+                                child: Text('成功率'),
+                              ),
+                            ],
+                          ),
+                          ],
+                      ),
+                    ),
+                  ),
+                  //サーブ
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey, //枠線の色
+                            width: 2, //枠線の太さ
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Text('サーブ'),
+                          //1人分の記録の題                          
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text('合計'),
+                                ),
+                                Expanded(
+                                  child: Text('成功'),
+                                ),
+                                Expanded(
+                                  child: Text('効果'),
+                                ),
+                                Expanded(
+                                  child: Text('失敗'),
+                                ),
+                                Expanded(
+                                  child: Text('効果率'),
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //ブロック
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey, //枠線の色
+                            width: 2, //枠線の太さ
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Text('ブロック'),
+                          //1人分の記録の題
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text('合計'),
+                              ),
+                              Expanded(
+                                child: Text('決定'),
+                              ),
+                              Expanded(
+                                child: Text('失敗'),
+                              ),
+                              Expanded(
+                                child: Text('成功率'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //2段トス
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey, //枠線の色
+                            width: 2, //枠線の太さ
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Text('2段トス'),
+                          //1人分の記録の題                          
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text('合計'),
+                              ),
+                              Expanded(
+                                child: Text('決定'),
+                              ),
+                              Expanded(
+                                child: Text('繋ぎ'),
+                              ),
+                              Expanded(
+                                child: Text('失敗'),
+                              ),
+                              Expanded(
+                                child: Text('決定率'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                      width:40,
+                      child:Text('1つ\n戻る')
+                  ),
+                ],
+              ),
+
+              //1人分のデータを記録
+              Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      //プレイヤーの名前を記入
+                      Container(
+                        width:99.5,
+                        child: TextField()),
+                      Expanded(child:
+                      OtherPlayerRecord(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              //1人分のデータを記録
+              Expanded(child:
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, //色
+                    width: 1.0, //太さ
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    //プレイヤーの名前を記入
+                    Container(
+                      width:99.5,
+                      child: TextField()),
+                    Expanded(child:
+                    OtherPlayerRecord(),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+
+            ],
+          )
+      ),
+    );
+  }
+}
+
+
+class OtherPlayerRecord extends StatefulWidget {
+  //PlayerRecord({required Key key}) : super(key: key);
+
+  @override
+  _OtherPlayerRecord createState() => _OtherPlayerRecord();
+
+}
+/*
+class VarOther {
+  int rece_sum_number = 0;
+  _OtherPlayerRecord(_otherPlayerRecord: rece_sum_number)
+}
+*/
+
+class _OtherPlayerRecord extends State<OtherPlayerRecord> {
+  /*
+  VarOther varOther = VarOther();
+  _OtherPlayerRecord({this.rece_sum_number});
+  */
+
+  //レセプションの変数
+  int rece_sum_number = 0;
+  int rece_decision_number = 0;
+  int rece_failure_number = 0;
+  double rece_decision_rate = 0.0;
+  //サーブの変数
+  int serve_sum_number = 0;
+  int serve_decision_number = 0;
+  int serve_effective_number = 0;
+  int serve_failure_number = 0;
+  double serve_decision_rate = 0.0;
+  //ブロックの変数
+  int block_sum_number = 0;
+  int block_decision_number = 0;
+  int block_failure_number = 0;
+  double block_decision_rate = 0.0;
+  //2段トスの変数
+  int highset_sum_number = 0;
+  int highset_decision_number = 0;
+  int highset_connection_number = 0;
+  int highset_failure_number = 0;
+  double highset_decision_rate = 0.0;
+  //undo用の変数
+  String undo_string = "";
+
+  //===============================================
+  //レセプションの関数
+  //成功数のカウントアップ関数
+  void _incrementReceDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      rece_sum_number++;
+      //決定数のカウントアップ
+      rece_decision_number++;
+      //決定率の計算
+      rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "rece_decision_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementReceFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      rece_sum_number++;
+      //失敗数のカウントアップ
+      rece_failure_number++;
+      //決定率の計算
+      rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "rece_failure_number";
+    });
+  }
+  //===============================================
+  //サーブの関数
+  //(効果－失敗)÷全体の本数×100
+  //(serve_effective_number - serve_failure_number) / serve_sum_number *100
+  //決定数のカウントアップ関数
+  void _incrementServeDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      serve_sum_number++;
+      //決定数のカウントアップ
+      serve_decision_number++;
+      //効果率の計算
+      serve_decision_rate = (serve_effective_number - serve_failure_number) / serve_sum_number *100;
+      if (serve_decision_rate < 0) {
+        serve_decision_rate = 0;
+      }
+      //undo用の変数を更新
+      undo_string = "serve_decision_number";
+    });
+  }
+  //効果のカウントアップ関数
+  void _incrementServeEffectiveNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ      
+      serve_sum_number++;
+      //効果数のカウントアップ      
+      serve_effective_number++;
+      //効果率の計算
+      serve_decision_rate = (serve_effective_number - serve_failure_number) / serve_sum_number *100;
+      if (serve_decision_rate < 0) {
+        serve_decision_rate = 0;
+      }
+      //undo用の変数を更新
+      undo_string = "serve_effective_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementServeFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      serve_sum_number++;
+      //失敗数のカウントアップ
+      serve_failure_number++;
+      //効果率の計算
+      serve_decision_rate = (serve_effective_number - serve_failure_number) / serve_sum_number *100;
+      if (serve_decision_rate < 0) {
+        serve_decision_rate = 0;
+      }
+      //undo用の変数を更新
+      undo_string = "serve_failure_number";
+    });
+  }
+  //===============================================
+  //ブロックの関数
+  //決定数のカウントアップ関数
+  void _incrementBlockDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      block_sum_number++;
+      //決定数のカウントアップ
+      block_decision_number++;
+      //決定率の計算
+      block_decision_rate = (block_decision_number / block_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "block_decision_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementBlockFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      block_sum_number++;
+      //失敗数のカウントアップ
+      block_failure_number++;
+      //決定率の計算
+      block_decision_rate = (block_decision_number / block_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "block_failure_number";
+    });
+  }
+  //===============================================
+  //2段トスの関数
+  //決定数のカウントアップ関数
+  void _incrementHighsetDecisionNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      highset_sum_number++;
+      //決定数のカウントアップ
+      highset_decision_number++;
+      //決定率の計算
+      highset_decision_rate = (highset_decision_number / highset_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "highset_decision_number";
+    });
+  }
+  //効果のカウントアップ関数
+  void _incrementHighsetConnectNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ      
+      highset_sum_number++;
+      //繋ぎ数のカウントアップ      
+      highset_connection_number++;
+      //決定率の計算    
+      highset_decision_rate = (highset_decision_number / highset_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "highset_connection_number";
+    });
+  }
+  //失敗のカウントアップ関数
+  void _incrementHighsetFailureNumber() {
+    // Widget再構築部分
+    setState(() {
+      //合計数のカウントアップ
+      highset_sum_number++;
+      //失敗数のカウントアップ
+      highset_failure_number++;
+      //決定率の計算
+      highset_decision_rate = (highset_decision_number / highset_sum_number)*100;
+      //undo用の変数を更新
+      undo_string = "highset_failure_number";
+    });
+  }
+  //===============================================
+  //上で書いたカウントアップ関数と逆の処理を行う
+  void _undo() {
+    setState(() {
+      //ディグ（強）
+      if (undo_string.startsWith("rece")) {
+        if (undo_string == "rece_decision_number") {
+          //合計数のカウントダウン
+          rece_sum_number--;
+          //決定数のカウントダウン
+          rece_decision_number--;
+          //決定率の計算
+          rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+
+        } else {
+          //合計数のカウントダウン
+          rece_sum_number--;
+          //失敗数のカウントダウン
+          rece_failure_number--;
+          //決定率の計算
+          rece_decision_rate = (rece_decision_number / rece_sum_number)*100;
+        }
+        //サーブ
+      } else if (undo_string.startsWith("serve")) {
+        if (undo_string == "serve_decision_number") {
+          //合計数のカウントダウン
+          serve_sum_number--;
+          //決定数のカウントダウン
+          serve_decision_number--;
+          //効果率の計算
+          serve_decision_rate = (serve_effective_number - serve_failure_number) / serve_sum_number *100;
+          if (serve_decision_rate < 0) {
+            serve_decision_rate = 0;
+          }
+        }  else if (undo_string == "serve_effective_number") {
+          //合計数のカウントダウン        
+          serve_sum_number--;
+          //効果数のカウントダウン          
+          serve_effective_number--;
+          //効果率の計算
+          serve_decision_rate = (serve_effective_number - serve_failure_number) / serve_sum_number *100;
+          if (serve_decision_rate < 0) {
+            serve_decision_rate = 0;
+          }
+        } else {
+          //合計数のカウントダウン
+          serve_sum_number--;
+          //失敗数のカウントダウン
+          serve_failure_number--;
+          //効果率の計算
+          serve_decision_rate = (serve_effective_number - serve_failure_number) / serve_sum_number *100;
+          if (serve_decision_rate < 0) {
+            serve_decision_rate = 0;
+          }
+        }
+        //ブロック
+      } else if (undo_string.startsWith("block")) {
+        if (undo_string == "block_decision_number") {
+          //合計数のカウントダウン
+          block_sum_number--;
+          //決定数のカウントダウン
+          block_decision_number--;
+          //決定率の計算
+          block_decision_rate = (block_decision_number / block_sum_number)*100;
+        } else {
+          //合計数のカウントダウン
+          block_sum_number--;
+          //失敗数のカウントダウン
+          block_failure_number--;
+          //決定率の計算
+          block_decision_rate = (block_decision_number / block_sum_number)*100;
+        }
+      //2段トス
+      } else {
+        if (undo_string == "highset_decision_number") {
+          //合計数のカウントダウン
+          highset_sum_number--;
+          //決定数のカウントダウン
+          highset_decision_number--;
+          //決定率の計算
+          highset_decision_rate = (highset_decision_number / highset_sum_number)*100;
+        }  else if (undo_string == "highset_connection_number") {
+          //合計数のカウントダウン        
+          highset_sum_number--;
+          //繋ぎ数のカウントダウン          
+          highset_connection_number--;
+          //決定率の計算
+          highset_decision_rate = (highset_decision_number / highset_sum_number)*100;
+        } else {
+          //合計数のカウントダウン
+          highset_sum_number--;
+          //失敗数のカウントダウン
+          highset_failure_number--;
+          //決定率の計算
+          highset_decision_rate = (highset_decision_number / highset_sum_number)*100;
+        }
+      } 
+
+    });
+  }
+  //===============================================
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Row(
+        children: [
+          //===============================================
+          //レセプション
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                //合計数
+                Expanded(child:
+                Text(
+                  '$rece_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementReceDecisionNumber,
+                    //数を表示する
+                    child: Text(
+                      '$rece_decision_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //失敗数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementReceFailureNumber,
+                    //数を表示する
+                    child: Text(
+                      '$rece_failure_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //決定率
+                Expanded(child:
+                Text(
+                  ((rece_decision_rate ?? 0) < 0 ? 0 : rece_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+
+          //===============================================
+          //サーブ
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                //合計数
+                Expanded(child:
+                Text(
+                  '$serve_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementServeDecisionNumber,
+                    //数を表示する
+                    child: Text(
+                      '$serve_decision_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //効果数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementServeEffectiveNumber,
+                    //数を表示する
+                    child: Text(
+                      '$serve_effective_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),                
+                //失敗数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementServeFailureNumber,
+                    //数を表示する
+                    child: Text(
+                      '$serve_failure_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //決定率
+                Expanded(child:
+                Text(
+                  ((serve_decision_rate ?? 0) < 0 ? 0 : serve_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+          //===============================================
+          //ブロック
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child:
+            Row(
+              children: [
+                //合計値
+                Expanded(child:
+                Text(
+                  '$block_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementBlockDecisionNumber,
+                    //数を表示する
+                    child: Text(
+                      '$block_decision_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //失敗数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementBlockFailureNumber,
+                    //数を表示する
+                    child: Text(
+                      '$block_failure_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //決定率
+                Expanded(child:
+                Text(
+                  ((block_decision_rate ?? 0) < 0 ? 0 : block_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+          //===============================================
+          //2段トス
+          Expanded(child:
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  color: Colors.grey, //枠線の色
+                  width: 2, //枠線の太さ
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                //合計数
+                Expanded(child:
+                Text(
+                  '$highset_sum_number',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                ),
+                //決定数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementHighsetDecisionNumber,
+                    //数を表示する
+                    child: Text(
+                      '$highset_decision_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //繋ぎ数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementHighsetConnectNumber,
+                    //数を表示する
+                    child: Text(
+                      '$highset_connection_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),                
+                //失敗数
+                Expanded(child:
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, //色
+                      width: 1.0, //太さ
+                    ),
+                  ),
+                  child: GestureDetector(
+                    //ボタンが押されたときの関数
+                    //カウントアップを行う
+                    onTap: _incrementHighsetFailureNumber,
+                    //数を表示する
+                    child: Text(
+                      '$highset_failure_number',
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    ),
+                  ),
+                ),
+                ),
+                //決定率
+                Expanded(child:
+                Text(
+                  ((highset_decision_rate ?? 0) < 0 ? 0 : highset_decision_rate!).toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+                ),
+              ],
+            ),
+          ),
+          ),
+          //===============================================
+
+          //undoボタン
+          IconButton(
+            icon: const Icon(Icons.undo),
+            onPressed: _undo,
+            style: IconButton.styleFrom(
+
+            ),
+          ),
+        ],
+      );
+
+
+  }
+}
