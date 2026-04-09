@@ -2419,7 +2419,7 @@ class _OtherPlayerRecord extends State<OtherPlayerRecord> {
 
           //undoボタン
           IconButton(
-            icon: const Icon(Icons.undo),
+            icon: const Icon(Icons.undo_outlined),
             onPressed: _undo,
             style: IconButton.styleFrom(
 
